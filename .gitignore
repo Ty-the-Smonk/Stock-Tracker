@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Stock Tracker/Hashing Algorithm.cs
+/Stock Tracker/Server Connection.cs

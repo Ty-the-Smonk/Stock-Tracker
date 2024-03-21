@@ -27,7 +27,7 @@ namespace Stock_Tracker
         private void btnRegister_Click(object sender, EventArgs e)
         {
             string HashedPassword;
-            string Password = txtPassword.Text;
+            string Password = Sanitize.SanitizeInput(txtPassword.Text);
             //Checking to see if Email already exists
             string query = $"SELECT * FROM users WHERE Email = '" + txtEmail.Text + "'";
             if (txtEmail.Text != "" || Password != "")
@@ -50,18 +50,9 @@ namespace Stock_Tracker
 
                             if (result == DialogResult.OK)
                             {
-                                bool containsNumber = false;
-                                bool hasMinimumLength = Password.Length >= 7;
+                                bool isValid = Password_Regex.IsValid(Password);
 
-                                foreach (char character in Password)
-                                {
-                                    if (char.IsDigit(character))
-                                    {
-                                        containsNumber = true;
-                                    }
-                                }
-
-                                if (containsNumber == true && hasMinimumLength == true)
+                                if (isValid == true)
                                 {
                                     if (Password == txtVerify.Text)
                                     {
@@ -131,27 +122,7 @@ namespace Stock_Tracker
 
         private void frmRegister_Load(object sender, EventArgs e)
         {
-            //connect to server
-            string server = "seniorproject.mysql.database.azure.com";
-            string database = "seniorproject";
-            string username = "Ty";
-            string password = "123Themoose";
-            //Make String
-            string connectionString = $"Server={server};Database={database};User Id={username};Password={password};";
-
-            //Connect
-            connection = new MySqlConnection(connectionString);
-            try
-            {
-                //Winning
-                connection.Open();
-            }
-            catch (MySqlException ex)
-            {
-                //suffering
-                MessageBox.Show("Its Over");
-            }
-
+            connection = Server_Connection.connectToServer(connection);
         }
 
 

@@ -19,34 +19,15 @@ namespace Stock_Tracker
 
         private void Real_Login_Load(object sender, EventArgs e)
         {
-            //connect to server
-            string server = "";
-            string database = "";
-            string username = "";
-            string password = "";
-            //Make String
-            string connectionString = $"Server={server};Database={database};User Id={username};Password={password};";
-
-            //Connect
-            connection = new MySqlConnection(connectionString);
-            try
-            {
-                //Winning
-                connection.Open();
-            }
-            catch (MySqlException ex)
-            {
-                //suffering
-                MessageBox.Show("Its Over");
-            }
+            connection = Server_Connection.connectToServer(connection);
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
             string email;
             string Password;
-            email = txtEmail.Text;
-            Password = txtPassword.Text;
+            email = Sanitize.SanitizeInput(txtEmail.Text);
+            Password = Sanitize.SanitizeInput(txtPassword.Text);
             // Retrieve hashed password from the database based on the email
             string query = $"SELECT Passwords FROM users WHERE Email = '" + email + "'";
 

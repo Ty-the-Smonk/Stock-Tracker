@@ -28,18 +28,10 @@ namespace Stock_Tracker
 
         private void btnOk_Click(object sender, EventArgs e)
         {
-            bool containsNumber = false;
-            bool hasMinimumLength = Password.Length >= 7;
+            string Password = txtPassword.Text;
+            bool isValid = Password_Regex.IsValid(Password);
 
-            foreach (char character in Password)
-            {
-                if (char.IsDigit(character))
-                {
-                    containsNumber = true;
-                }
-            }
-
-            if (containsNumber == true && hasMinimumLength == true)
+            if (isValid == true)
             {
                 this.DialogResult = DialogResult.OK;
                 this.UserInput = txtPassword.Text;

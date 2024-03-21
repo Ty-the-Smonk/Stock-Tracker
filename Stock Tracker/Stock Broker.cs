@@ -44,27 +44,7 @@ namespace Stock_Tracker
 
         private void Stock_Broker_Load(object sender, EventArgs e)
         {
-            //Connect to database
-            string server = "seniorproject.mysql.database.azure.com";
-            string database = "seniorproject";
-            string username = "Ty";
-            string password = "123Themoose";
-
-            string connectionString = $"Server={server};Database={database};User Id={username};Password={password};";
-
-
-            connection = new MySqlConnection(connectionString);
-            try
-            {
-                connection.Open();
-                userID = GetUserID(email);
-                RefreshGrid();
-            }
-            catch (MySqlException ex)
-            {
-                MessageBox.Show("Its Over");
-            }
-
+            connection = Server_Connection.connectToServer(connection);
             lblEmail.Text = email;
         }
 
@@ -239,6 +219,7 @@ namespace Stock_Tracker
 
         private static bool GetStockInfo(string symbol)
         {
+            symbol = Sanitize.SanitizeInput(symbol);
             string query = $"SELECT * FROM stocks WHERE StockSymbol = '" + symbol + "'";
 
             using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -361,7 +342,7 @@ namespace Stock_Tracker
                 if (result == Convert.ToString(DialogResult.OK) && Input.UserInput != "")
                 {
 
-                    NewPassword = Input.UserInput;
+                    NewPassword = Sanitize.SanitizeInput(Input.UserInput);
                     string hashedPassword = HashingAlgorithm.HashPassword(NewPassword);
                     string updateQuery = "UPDATE users SET Passwords = @Passwords WHERE idUsers = @idUsers";
 

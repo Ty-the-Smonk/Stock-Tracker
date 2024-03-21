@@ -49,8 +49,9 @@ namespace Stock_Tracker
                             Stock_Broker stockBrocker = new Stock_Broker(email);
                             email = "";
                             Password = "";
-                            stockBrocker.Show();
                             connection.Close();
+                            stockBrocker.Show();
+
                             allowClose = false;
                             Close();
                             allowClose = true;

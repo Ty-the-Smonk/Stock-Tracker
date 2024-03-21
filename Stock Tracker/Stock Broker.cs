@@ -31,7 +31,9 @@ namespace Stock_Tracker
         public Stock_Broker(string email)
         {
             InitializeComponent();
+            connection = Server_Connection.connectToServer(connection);
             this.email = email;
+            userID = GetUserID(email);
 
         }
 
@@ -44,7 +46,6 @@ namespace Stock_Tracker
 
         private void Stock_Broker_Load(object sender, EventArgs e)
         {
-            connection = Server_Connection.connectToServer(connection);
             lblEmail.Text = email;
         }
 
